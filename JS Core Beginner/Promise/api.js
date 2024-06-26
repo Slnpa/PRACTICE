@@ -1,24 +1,19 @@
 async function fetchFromMultipleAPIs(apiUrls) {
     try {
-        // Динамический импорт node-fetch
         const { default: fetch } = await import('node-fetch');
 
-        // Функция для извлечения данных из одного API
         const fetchData = async (url) => {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Error fetching data from ${url}: ${response.statusText}`);
             }
-            return await response.json(); // Предполагаем, что данные возвращаются в формате JSON
+            return await response.json();
         };
 
-        // Создание массива Promises для всех API
         const fetchPromises = apiUrls.map(url => fetchData(url));
 
-        // Ожидание выполнения всех Promises параллельно
         const results = await Promise.all(fetchPromises);
 
-        // Возвращаем объединенный результат
         return results;
     } catch (error) {
         console.error(`Error fetching data: ${error.message}`);
@@ -26,7 +21,6 @@ async function fetchFromMultipleAPIs(apiUrls) {
     }
 }
 
-// Пример использования
 const apiUrls = [
     'https://jsonplaceholder.typicode.com/todos/1',
     'https://jsonplaceholder.typicode.com/todos/2',
