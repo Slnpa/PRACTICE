@@ -3,7 +3,7 @@ const axios = require('axios');
 const app = express();
 const port = 3003;
 
-const apiKey = 'f15c899dd10edcafd270963a806915e5';  // Замените YOUR_API_KEY на ваш API ключ OpenWeatherMap
+const apiKey = 'f15c899dd10edcafd270963a806915e5';
 const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
 const locations = [
@@ -18,7 +18,6 @@ app.get('/status', async (req, res) => {
     const results = [];
 
     try {
-        // 200 - London
         const responseLondon = await axios.get(`${baseUrl}?lat=${locations[0].lat}&lon=${locations[0].lon}&appid=${apiKey}`);
         results.push({
             api: 'OpenWeatherMap',
@@ -36,7 +35,6 @@ app.get('/status', async (req, res) => {
     }
 
     try {
-        // 400 - Invalid coordinates (symbols instead of lat/lon)
         const responseInvalid = await axios.get(`${baseUrl}?lat={lat}&lon={lon}&appid=${apiKey}`);
         results.push({
             api: 'OpenWeatherMap',
@@ -54,7 +52,6 @@ app.get('/status', async (req, res) => {
     }
 
     try {
-        // 401 - Unauthorized
         const responseUnauthorized = await axios.get(`${baseUrl}?lat=${locations[4].lat}&lon=${locations[4].lon}&appid=invalid_api_key`);
         results.push({
             api: 'OpenWeatherMap',
@@ -72,7 +69,6 @@ app.get('/status', async (req, res) => {
     }
 
     try {
-        // 300 - Multiple Choices
         const response300 = await axios.get('https://jsonplaceholder.typicode.com/posts/1', { maxRedirects: 0 });
         results.push({
             api: 'JSONPlaceholder',
@@ -90,7 +86,6 @@ app.get('/status', async (req, res) => {
     }
 
     try {
-        // 500 - Internal Server Error
         const response500 = await axios.get('https://postman-echo.com/status/500');
         results.push({
             api: 'Postman Echo',
